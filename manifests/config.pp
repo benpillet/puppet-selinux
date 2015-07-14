@@ -53,7 +53,7 @@ class selinux::config (
 
   exec { "change-selinux-status-to-${mode}":
     command => "setenforce ${sestatus}",
-    unless  => "getenforce | grep -qi \"${mode}\\|disabled\"",
+    unless  => "test `selinuxenabled; echo $?` -eq ${sestatus}",
     path    => '/bin:/usr/bin:/usr/sbin',
   }
 }
